@@ -1,8 +1,11 @@
 package com.myRetail.utility;
 
+import org.springframework.stereotype.Component;
+
 import com.myRetail.entity.ProductInfoEntity;
 import com.myRetail.model.ProductInfo;
 
+@Component
 public class ProductInfoUtility {
 	
 	public static ProductInfo convertEntityToProductInfo (ProductInfoEntity productInfoEntity) {

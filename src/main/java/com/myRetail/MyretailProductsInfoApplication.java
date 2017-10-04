@@ -14,33 +14,36 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.gson.Gson;
 import com.myRetail.entity.ProductInfoEntity;
 import com.myRetail.repository.ProductInfoRepository;
+import com.myRetail.service.ProductInfoService;
 import com.myRetail.utility.ProductInfoUtility;
 
 @SpringBootApplication
 @RestController
-public class MyretailProductsInfoApplication {
+public class MyRetailProductsInfoApplication {
 
 	@Autowired
-	private ProductInfoRepository productInfoRepository;
+	private ProductInfoService productInfoService;
 	
 	@Autowired
 	private Gson gson;
 	
+	private final String jsonMimeType = "application/json; charset=utf-8";
+	
 	public static void main(String[] args) {
-		SpringApplication.run(MyretailProductsInfoApplication.class, args);
+		SpringApplication.run(MyRetailProductsInfoApplication.class, args);
 	}
 	
 	@RequestMapping(value="/productinfo/{id}", method=RequestMethod.GET, produces="application/json")
 	public ResponseEntity<String> getProductInfo (@PathVariable("id") Integer productId) {
 		
-		ProductInfoEntity productInfoEntity = productInfoRepository.findByProductId(productId);
+		ProductInfoEntity productInfoEntity = productInfoService.findByProductId(productId);
 		
-		return getResponseEntity(gson.toJson(ProductInfoUtility.convertEntityToProductInfo(productInfoEntity)), "json");
+		return getResponseEntity(gson.toJson(ProductInfoUtility.convertEntityToProductInfo(productInfoEntity)), jsonMimeType, HttpStatus.OK);
 	}
 	
-	private ResponseEntity<String> getResponseEntity(String responseStr, String responseType){
+	private ResponseEntity<String> getResponseEntity(String responseStr, String responseType, HttpStatus httpStatus){
 		HttpHeaders responseHeaders = new HttpHeaders();
-		responseHeaders.add("Content-Type", "application/"+responseType+";charset=utf-8");
-		return new ResponseEntity<String>(responseStr, responseHeaders, HttpStatus.OK);		
+		responseHeaders.add("Content-Type", responseType);
+		return new ResponseEntity<String>(responseStr, responseHeaders, httpStatus);		
 	}
 }
