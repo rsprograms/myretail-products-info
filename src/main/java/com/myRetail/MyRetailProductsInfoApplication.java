@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
 import com.myRetail.entity.ProductInfoEntity;
-import com.myRetail.repository.ProductInfoRepository;
 import com.myRetail.service.ProductInfoService;
 import com.myRetail.utility.ProductInfoUtility;
 
